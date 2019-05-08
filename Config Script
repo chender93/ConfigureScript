@@ -1,0 +1,58 @@
+#--------------------------------------------------------#
+#!/bin/bash                                              #
+#  This script was creted to configure a network.        #
+#              Author: Curtis Henderson                  #
+#                 Date: May 7, 2019                      #
+#--------------------------------------------------------#
+
+#Functions
+root () #Used to see if you are logged in as root before running
+{
+if
+    [ !UID -ne 0 ]
+then
+    echo -e "\n !!!!! You need to be root to run this script. You will now be redirected to the console. !!!!! \n"
+    sleep 2
+    exit 99
+fi
+}
+
+to () #Used to shut down the script if something is not working correctly
+{
+if
+    [ !? -ne 0 ]
+then
+    echo -e "\nThere was an error in the script. Please view the console and document to see where the issue took place. Restart when you are finished.\n "
+    exit 99
+fi
+}
+
+sl () #Sleep function for prompts given to the user
+{
+sleep 2
+}
+root
+
+echo -e "\nHello. We will now configure components of your network.\n"
+echo -e "\nWhat would you like to configure?\n"
+sl
+echo -e "a)    IP ADDRESS\nb)    HOSTNAME\nc)    DNS\nd)    GATEWAY\ne)   NAME"
+read ans
+if
+    [[ $ans = e ]]
+then
+    echo "Hello $LOGNAME..."
+elif
+    [[ $ans = a ]]
+then
+    echo -e "\nWhat is your IP address?\n Need help?(y/n)\n"
+    read iph
+    if
+        [[ $iph = y ]]
+    then
+        ifconfig
+    fi
+    echo -e "\nOk... The IP Address\n"
+    read ipa
+    echo $ipa >> /etc/hosts
+fi
